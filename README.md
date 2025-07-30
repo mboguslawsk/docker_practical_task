@@ -172,6 +172,13 @@ docker tag <my-image> <accountID>.dkr.ecr.<region>.amazonaws.com/<repo-name>:<yo
 docker push <accountID>.dkr.ecr.<region>.amazonaws.com/<repo-name>:<your-tag>
 ```
 
+To show images in the repository:
+
+```
+aws ecr describe-images \
+  --repository-name <repo-name>
+```
+
 
 Although `ScanOnPush` is set to `True`, scan functionality is not working — possibly due to permissions. There's no **Scan** button:
 
