@@ -142,6 +142,37 @@ Successfully pushed the `spring-petclinic` image:
 
 ### Perform security scan for uploaded images in ECR
 
+Firstly I had to configure AWS CLI using `aws configure`.
+
+Then we can create repository ECR using:
+
+```
+aws ecr create-repository \
+  --repository-name spring-petclinic \
+  --image-scanning-configuration scanOnPush=true
+```
+
+Next, copy the URI of this repository. It should look like this:
+
+```
+<accountID>.dkr.ecr.<region>.amazonaws.com/<repo-name>
+```
+
+On your local machine, log in to the repository using:
+
+```
+aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <accountID>.dkr.ecr.<region>.amazonaws.com/<repo-name>
+```
+
+After a successful login, build the Docker image, tag it using the repository URI, and push it:
+
+```
+docker tag <my-image> <accountID>.dkr.ecr.<region>.amazonaws.com/<repo-name>:<your-tag>
+
+docker push <accountID>.dkr.ecr.<region>.amazonaws.com/<repo-name>:<your-tag>
+```
+
+
 Although `ScanOnPush` is set to `True`, scan functionality is not working — possibly due to permissions. There's no **Scan** button:
 
 <p align="center"> <img src="img/img7.png" alt="IMG" width="80%"> </p>
